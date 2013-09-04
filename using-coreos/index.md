@@ -1,89 +1,102 @@
----
-layout: docs
-slug: using-coreos
-title: Documentation
-docker-version: 0.5
-systemd-version: 204
----
+# 使用 [CoreOS][coreos-link]
 
-# Using CoreOS
+如果你还没有一个已经运行的CoreOS实例子，请参考文档[Vagrant运行CoreOS][vagrant-guide-link]、[Amazon运行CoreOS][ec2-guide-link]、[QEMU运行CoreOS][qemu-guide-link]. 这些手册能够帮助你在几分钟内新建并且启动一个虚拟机.
 
-If you haven't already got an instance of CoreOS up and running checkout the guides on running CoreOS on [Vagrant][vagrant-guide] or [Amazon EC2][ec2-guide]. With either of these guides you will have a machine up and running in a few minutes.
+**注意**: ssh的用户名是 `core`. 例如 `ssh core@an.ip.compute-1.amazonaws.com`
+[vagrant-guide-link]:../vagrant/index.md
+[ec2-guide-link]:../ec2/index.md
+[qemu-guide-link]:../qemu/index.md
 
-**NOTE**: the user for ssh is `core`. For example use `ssh core@an.ip.compute-1.amazonaws.com`
+[CoreOS][coreos-link] 提供了三个必要的工具: 服务发现, 容器管理和进程管理.
 
-CoreOS gives you three essential tools: service discovery, container management and process management. Lets try each of them out.
+## 服务发现 etcd
 
-## Service Discovery with etcd
+etcd ([docs][etcd-docs-link]) 可用于节点间的服务发现. 这将是他能够想应用负载均衡的代理服务那样非常容易的做一些事情。etcd 的目的是在你构建的服务的地方增加更多的机器和服务自动扩展变得非常的容易。
 
-etcd ([docs][etcd-docs]) can be used for service discovery between nodes. This will make it extremely easy to do things like have your proxy automatically discover which app servers to balance to. etcd's goal is to make it easy to build services where you add more machines and services automatically scale.
 
-The API is easy to use. You can simply use curl to set and retrieve a key from etcd:
+API非常容易使用，通过etcd，你可以使用curl简单的设置和检索关键选项:
 
 ```
 curl -L http://127.0.0.1:4001/v1/keys/message -d value="Hello world"
 curl -L http://127.0.0.1:4001/v1/keys/message
 ```
-
-If you followed the [EC2 guide][ec2-guide] you can SSH into another machine in your cluster and can retrieve this same key:
+如果你参考的是[ec2 guide][ec2-guide-link]，你可以通过SSH登录到另外一台你集群中的机器，检索相同的选项:
 
 ```
 curl -L http://127.0.0.1:4001/v1/keys/message
 ```
 
-etcd is persistent and replicated accross members in the cluster. It can also be used standalone as a way to share configuration between containers on a single host. Read more about the full API on [Github][etcd-docs].
+etcd在集群中机器之间是持久话和可复制的。etcd不但可以在一个主机的不同容器之间共享配置，也可以单独使用.了解更多，在[github][github-link]查阅[完整API][etcd-docs-link]
 
-## Container Management with docker
 
-docker {{ page.docker-version }} ([docs][docker-docs]) for package management. Put all your apps into containers, and wire them together with etcd across hosts.
+[etcd-docs-link]:https://github.com/coreos/etcd/blob/master/README.md
+[github-link]:http://github.com
 
-You can quickly try out a Ubuntu container with these commands:
+## 容器管理 [docker][docker-link]
+
+docker ([docs][docker-docs-link]) 包管理工具. 放置你的应用到容器中，使用etcd把不同机器的包绑定到一起.
+
+你可以使用这些命令快速的尝试[ubuntu][ubuntu-link]容器:
 
 ```
 docker run ubuntu /bin/echo hello world
 docker run -i -t ubuntu /bin/bash
-```
+```  
 
-docker opens up a lot of possibilities for consistent application deploys. Read more about it at [docker.io][docker-docs].
+docker为大规模的一致性应用部署提供了可能性。要知道更多，可以参考文档[docker.io][docker-docs-link].
 
-## Process Management with systemd
+[docker-docs-link]:http://docs.docker.io/en/latest/
 
-systemd {{ page.systemd-version }} ([docs][systemd-docs]). We particularly think socket activation is useful for widely deployed services.
+## 进程管理 [systemd][systemd-link]
 
-The configuration file format for systemd is straight forward. Lets create a simple service to run out of our ubuntu container that will start on reboots.:
+systemd 204 ([docs][systemd-link]). 我们认为套接字激活对于广泛的部署是非常有用的.
 
-First, you will need to run all of this as `root` since you are modifying system state:
+systemd的配置文件直接了当. 让我们创建一个在重启系统后启动的简单的服务耗尽ubuntu容器.:
+
+第一，
+First, 由于需要修改系统状态，你需要用超级管理员`root`运行这些操作:
 
 ```
 sudo -i
 ```
 
-Create a file called `/media/state/units/hello.service`
+创建一个文件 `/media/state/units/hello.service`  
 
-```
-[Unit]
-Description=My Service
+```  
+[Unit]   
+Description=My Service  
 After=docker.service
+  
+[Service]   
+Restart=always  
+ExecStart=/usr/bin/docker  
+run ubuntu /bin/sh -c "while true; do echo Hello World; sleep 1; done"
 
-[Service]
-Restart=always
-ExecStart=/usr/bin/docker run ubuntu /bin/sh -c "while true; do echo Hello World; sleep 1; done"
-
-[Install]
-WantedBy=local.target
+[Install]  
+WantedBy=local.target  
 ```
 
-Then run `systemctl restart local-enable.service`
 
-This will start your daemon and log to the systemd journal. You can
-watch all of the useful work it is doing by running:
+
+然后，运行`systemctl restart local-enable.service`
+
+他将启动你的守护进程并且记录systemd日志.你可以通过命令查看工作的有效输出:
 
 ```
 journalctl -u hello.service -f
 ```
 
-systemd provides a solid init system and service manager. Read more about it at the [systemd homepage][systemd-docs].
+systemd提供了一个见识初始化系统和服务管理。了解更多，查阅[system主页][systemd-link].
+
+
+[systemd-link]:http://www.freedesktop.org/wiki/Software/systemd/
 
 #### Chaos Monkey
 
-Built in Chaos Monkey (i.e. random reboots). During the alpha period, CoreOS will automatically reboot after an update is applied.
+内建Chao Monkey(例如 随机重启).在alpha版本中,CoreOS应用更新后自动重新启动.
+
+
+
+[coreos-link]:http://coreos.com
+[docker-link]:http://docker.io
+[ubuntu-link]:http://www.ubuntu.com
