@@ -1,9 +1,3 @@
----
-layout: docs
-slug: qemu
-标题: 文档
----
-
 # 在[QEMU][qemu-link]上运行CoreOS
 
 [CoreOS](http://coreos.com) 正处于巨大的开发中，并且被积极的测试.
@@ -70,14 +64,15 @@ Fedora的维基上有一份 [快速指南][qemufed] 但是基础安装非常的简单:
 
 1. 磁盘镜像（以qcow2的格式提供）  
 
-2. 启动[QEMU][qemu-link]的shell脚本 
-
-    mkdir coreos; cd coreos     
+2. 启动[QEMU][qemu-link]的shell脚本
+ 
+    mkdir coreos;  
+    cd coreos
     wget http://storage.core-os.net/coreos/amd64-generic/dev-channel/coreos_production_qemu.sh  
-    wget http://storage.core-os.net/coreos/amd64-generic/dev-channel/coreos_production_qemu_image.img.bz2  
-    chmod +x coreos_production_qemu.sh 
+    wget http://storage.core-os.net/coreos/amd64-generic/dev-channel/coreos_production_qemu_image.img.bz2    
+    chmod +x coreos_production_qemu.sh  
     bunzip2 coreos_production_qemu_image.img.bz2
-	
+		
 启动很简单:    
   
     ./coreos_production_qemu.sh -nographic
