@@ -54,7 +54,7 @@ systemd 204 ([docs][systemd-link]). 我们认为套接字激活对于广泛的�
 systemd的配置文件直接了当. 让我们创建一个在重启系统后启动的简单的服务耗尽ubuntu容器.:
 
 第一，
-First, 由于需要修改系统状态，你需要用超级管理员`root`运行这些操作:
+由于需要修改系统状态，你需要用超级管理员`root`运行这些操作:
 
 ```
 sudo -i
@@ -86,7 +86,7 @@ WantedBy=local.target
 journalctl -u hello.service -f
 ```
 
-systemd提供了一个见识初始化系统和服务管理。了解更多，查阅[system主页][systemd-link].
+systemd提供了一个坚实的初始化系统和服务管理。了解更多，查阅[system主页][systemd-link].
 
 
 [systemd-link]:http://www.freedesktop.org/wiki/Software/systemd/
