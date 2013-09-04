@@ -117,4 +117,4 @@ Fedora的维基上有一份 [快速指南][qemufed] 但是基础安装非常的�
 [ubuntu-link]:http://www.ubuntu.com
 [qemu-link]:http://www.qemu.org
 [coreos-link]:http://coreos.com
-[using-coreos]:using-coreos/index.md
+[using-coreos]:../using-coreos/index.md
