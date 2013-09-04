@@ -111,10 +111,10 @@ Fedora的维基上有一份 [快速指南][qemufed] 但是基础安装非常的�
 
 ## 使用[CoreOS][coreos-link]
 
-现在你已经有一个启动的虚拟机，可以很随意的使用它了。具体请查看[使用 CoreOS][using-coreos] guide.
+现在你已经有一个启动的虚拟机，可以很随意的使用它了。具体请查看[使用CoreOS手册][using-coreos].
 
 [debian-link]:http://www.debian.org
 [ubuntu-link]:http://www.ubuntu.com
 [qemu-link]:http://www.qemu.org
 [coreos-link]:http://coreos.com
-[using-coreos]:../using-coreos/index.md
+[using-coreos]:using-coreos/index.md
