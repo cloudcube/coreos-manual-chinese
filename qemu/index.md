@@ -77,30 +77,25 @@ Fedora的维基上有一份 [快速指南][qemufed] 但是基础安装非常的�
   
     ./coreos_production_qemu.sh -nographic
 
-### SSH Keys
+### SSH 密匙对
 
-In order to log in to the virtual machine you will need to use ssh keys.
-If you don't already have a ssh key pair you can generate one simply by
-running the command `ssh-keygen`. The wrapper script will automatically
-look for public keys in ssh-agent if available and at the default
-locations `~/.ssh/id_dsa.pub` or `~/.ssh/id_rsa.pub`. If you need to
-provide an alternate location use the -a option:
+你需要使用SSH密匙登录到虚拟机。如果你没有SSH密匙对，你可以通过"ssh-keygen"命令生成一个。
+如果在默认的位置有效，该脚本会自动在ssh-agent寻找公共密匙`~/.ssh/id_dsa.pub` 或者 `~/.ssh/id_rsa.pub`.  
+如果你需要指定公共密匙位置请使用 -a 选项:
 
-    ./coreos_production_qemu.sh -a ~/.ssh/authoized_keys -- -nographic
+    ./coreos_production_qemu.sh -a ~/.ssh/id_{dsa,rsa}.pub -- nographic
 
-Note: Options such as -a for the wrapper script must be specified before
-any options for QEMU. To make the separation between the two explicit
-you can use -- but that isn't required. See
-`./coreos_production_qemu.sh -h` for details.
+注意：选项`-a`必须指定在QEMU的任何选项之前.为了使两者有着明确的分离，你可以使用`--`,但这不是必须的。
+`./coreos_production_qemu.sh -h` 查看更多细节
 
-Once the virtual machine has started you can log in via SSH:
+一旦虚拟机启动，你就可以通过SSH登录:
 
     ssh -l core -p 2222 localhost
 
-### SSH Config
+### SSH 配置
 
-To simplify this and avoid potential host key errors in the future add
-the following to `~/.ssh/config`:
+为了简化和避免未来潜在的主机密钥错误
+你可以将一下信息添加到文件`~/.ssh/config`:
 
     Host coreos
     HostName localhost
@@ -109,16 +104,17 @@ the following to `~/.ssh/config`:
     StrictHostKeyChecking no
     UserKnownHostsFile /dev/null
 
-Now you can log in to the virtual machine with:
+现在你就可以通过以下脚本登录到虚拟机了:
 
     ssh coreos
 
 
-## Using CoreOS
+## 使用[CoreOS][coreos-link]
 
-Now that you have a machine booted it is time to play around. Check out
-the [Using CoreOS][using-coreos] guide.
+现在你已经有一个启动的虚拟机，可以很随意的使用它了。具体请查看[使用 CoreOS][using-coreos] guide.
+
 [debian-link]:http://www.debian.org
 [ubuntu-link]:http://www.ubuntu.com
 [qemu-link]:http://www.qemu.org
 [coreos-link]:http://coreos.com
+[using-coreos]:../using-coreos/index.md
