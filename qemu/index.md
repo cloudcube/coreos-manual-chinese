@@ -1,12 +1,12 @@
-# ÔÚ[QEMU][qemu-link]ÉÏÔËĞĞCoreOS
+ï»¿# åœ¨[QEMU][qemu-link]ä¸Šè¿è¡ŒCoreOS
 
-[CoreOS](http://coreos.com) Õı´¦ÓÚ¾Ş´óµÄ¿ª·¢ÖĞ£¬²¢ÇÒ±»»ı¼«µÄ²âÊÔ.
+[CoreOS](http://coreos.com) æ­£å¤„äºå·¨å¤§çš„å¼€å‘ä¸­ï¼Œå¹¶ä¸”è¢«ç§¯æçš„æµ‹è¯•.
 
-ÕâĞ©ËµÃ÷½«Ö¸µ¼ÄãÔÚQEMUÏÂÔËĞĞÒ»¸öµ¥¶ÀCoreOSÊµÀı,
-[QEMU](http://www.qemu.org)ÓĞ×ÅĞ¡ÈğÊ¿¾üµ¶ÃÀÓşµÄĞéÄâ»úºÍCPU·ÂÕæÆ÷¡£
-Èç¹ûÄãĞèÒª×öµÄ¸ü¶à£¬¿É²Î¿¼[ÅäÖÃÍøÂç][qemunet]¡¢[QEMU ÎÄµµ][qemuwiki] ºÍ [ÓÃ»§ÊÖ²á][qemudoc].
+è¿™äº›è¯´æ˜å°†æŒ‡å¯¼ä½ åœ¨QEMUä¸‹è¿è¡Œä¸€ä¸ªå•ç‹¬CoreOSå®ä¾‹,
+[QEMU](http://www.qemu.org)æœ‰ç€å°ç‘å£«å†›åˆ€ç¾èª‰çš„è™šæ‹Ÿæœºå’ŒCPUä»¿çœŸå™¨ã€‚
+å¦‚æœä½ éœ€è¦åšçš„æ›´å¤šï¼Œå¯å‚è€ƒ[é…ç½®ç½‘ç»œ][qemunet]ã€[QEMU æ–‡æ¡£][qemuwiki] å’Œ [ç”¨æˆ·æ‰‹å†Œ][qemudoc].
 
-Äã¿ÉÒÔÖ±½Óµ½ [IRC Í¨µÀ][irc] »òÕß [ÓÊ¼şÁĞ±í][coreos-dev]×ÉÑ¯.
+ä½ å¯ä»¥ç›´æ¥åˆ° [IRC é€šé“][irc] æˆ–è€… [é‚®ä»¶åˆ—è¡¨][coreos-dev]å’¨è¯¢.
 
 [qemunet]: http://wiki.qemu.org/Documentation/Networking
 [qemuwiki]: http://wiki.qemu.org/Manual
@@ -15,22 +15,22 @@
 [coreos-dev]:https://groups.google.com/forum/#!forum/coreos-dev
 
 
-## °²×° [QEMU][qemu-link]
+## å®‰è£… [QEMU][qemu-link]
 
-QEMU²»µ«¿ÉÒÔÔËĞĞÔÚLinuxÏµÍ³£¬»¹¿ÉÔËĞĞÔÚWindowsºÍOSX,µ«ÊÇ×îºÃÔËĞĞÔÚLinux¡£
-²¢ÇÒ¿ÉÔËĞĞÔÚÈÎºÎLinux·¢ĞĞ°æ¡£
+QEMUä¸ä½†å¯ä»¥è¿è¡Œåœ¨Linuxç³»ç»Ÿï¼Œè¿˜å¯è¿è¡Œåœ¨Windowså’ŒOSX,ä½†æ˜¯æœ€å¥½è¿è¡Œåœ¨Linuxã€‚
+å¹¶ä¸”å¯è¿è¡Œåœ¨ä»»ä½•Linuxå‘è¡Œç‰ˆã€‚
 
-### [Debian][debian-link] »òÕß [Ubuntu][ubuntu-link]
+### [Debian][debian-link] æˆ–è€… [Ubuntu][ubuntu-link]
 
-[DebianÎÄµµ][qemudeb] ÓĞ¸ü¶àµÄÏ¸½Ú £¬µ«¿ªÊ¼µÄ»°ÄãÖ»ĞèÒª£º
+[Debianæ–‡æ¡£][qemudeb] æœ‰æ›´å¤šçš„ç»†èŠ‚ ï¼Œä½†å¼€å§‹çš„è¯ä½ åªéœ€è¦ï¼š
 
     sudo apt-get install qemu-system-x86 qemu-utils
 
 [qemudeb]: https://wiki.debian.org/QEMU
 
-### Fedora »òÕß Red Hat
+### Fedora æˆ–è€… Red Hat
 
-FedoraµÄÎ¬»ùÉÏÓĞÒ»·İ [¿ìËÙÖ¸ÄÏ][qemufed] µ«ÊÇ»ù´¡°²×°·Ç³£µÄ¼òµ¥:
+Fedoraçš„ç»´åŸºä¸Šæœ‰ä¸€ä»½ [å¿«é€ŸæŒ‡å—][qemufed] ä½†æ˜¯åŸºç¡€å®‰è£…éå¸¸çš„ç®€å•:
 
     sudo yum install qemu-system-x86 qemu-img
 
@@ -38,18 +38,18 @@ FedoraµÄÎ¬»ùÉÏÓĞÒ»·İ [¿ìËÙÖ¸ÄÏ][qemufed] µ«ÊÇ»ù´¡°²×°·Ç³£µÄ¼òµ¥:
 
 ### Arch
 
-ÕâÊÇÄã¿ªÊ¼ËùĞèÒª×öµÄ:
+è¿™æ˜¯ä½ å¼€å§‹æ‰€éœ€è¦åšçš„:
 
     sudo pacman -S qemu
 
-[Arch's QEMU Î¬»ùÒ³Ãæ][arch-qemu-wiki-link],ÄãÄÜ¹»·¢ÏÖ¸ü¶àÏ¸½Ú.
+[Arch's QEMU ç»´åŸºé¡µé¢][arch-qemu-wiki-link],ä½ èƒ½å¤Ÿå‘ç°æ›´å¤šç»†èŠ‚.
 [arch-qemu-wiki-link]:https://wiki.archlinux.org/index.php/Qemu
 
 ### Gentoo
 
-ÕıÈçÎÒÃÇËùÔ¤ÆÚµÄÄÇÑù£¬Gentoo¿ÉÄÜ»á¸´ÔÓĞ©£¬
-µ«ËùÓĞµÄËùĞèµÄÄÚºËÑ¡ÏîºÍUSE±êÊ¶¶¼°üº¬ÔÚ [Gentoo
-Î¬»ù][qemugen]. Ò»°ãÀ´Ëµ£¬ÕâÑù¾Í×ã¹»ÁË:
+æ­£å¦‚æˆ‘ä»¬æ‰€é¢„æœŸçš„é‚£æ ·ï¼ŒGentooå¯èƒ½ä¼šå¤æ‚äº›ï¼Œ
+ä½†æ‰€æœ‰çš„æ‰€éœ€çš„å†…æ ¸é€‰é¡¹å’ŒUSEæ ‡è¯†éƒ½åŒ…å«åœ¨ [Gentoo
+ç»´åŸº][qemugen]. ä¸€èˆ¬æ¥è¯´ï¼Œè¿™æ ·å°±è¶³å¤Ÿäº†:
 
     echo app-emulation/qemu qemu_softmmu_targets_x86_64 virtfs xattr >> /etc/portage/package.use
     emerge -av app-emulation/qemu
@@ -57,14 +57,14 @@ FedoraµÄÎ¬»ùÉÏÓĞÒ»·İ [¿ìËÙÖ¸ÄÏ][qemufed] µ«ÊÇ»ù´¡°²×°·Ç³£µÄ¼òµ¥:
 [qemugen]: http://wiki.gentoo.org/wiki/QEMU
 
 
-## Æô¶¯[CoreOS][coreos-link]
+## å¯åŠ¨[CoreOS][coreos-link]
 
-[QEMU][qemu-link]°²×°Íê³Éºó£¬Äã¿ÉÒÔÏÂÔØ²¢ÇÒÆô¶¯×îĞÂµÄCoreOS¾µÏñ.
-ÕâÀïÄãĞèÒªÁ½¸öÎÄ¼ş:  
+[QEMU][qemu-link]å®‰è£…å®Œæˆåï¼Œä½ å¯ä»¥ä¸‹è½½å¹¶ä¸”å¯åŠ¨æœ€æ–°çš„CoreOSé•œåƒ.
+è¿™é‡Œä½ éœ€è¦ä¸¤ä¸ªæ–‡ä»¶:  
 
-1. ´ÅÅÌ¾µÏñ£¨ÒÔqcow2µÄ¸ñÊ½Ìá¹©£©  
+1. ç£ç›˜é•œåƒï¼ˆä»¥qcow2çš„æ ¼å¼æä¾›ï¼‰  
 
-2. Æô¶¯[QEMU][qemu-link]µÄshell½Å±¾
+2. å¯åŠ¨[QEMU][qemu-link]çš„shellè„šæœ¬
  
     mkdir coreos;  
     cd coreos
@@ -73,7 +73,7 @@ FedoraµÄÎ¬»ùÉÏÓĞÒ»·İ [¿ìËÙÖ¸ÄÏ][qemufed] µ«ÊÇ»ù´¡°²×°·Ç³£µÄ¼òµ¥:
     chmod +x coreos_production_qemu.sh  
     bunzip2 coreos_production_qemu_image.img.bz2
 		
-Æô¶¯ºÜ¼òµ¥:    
+å¯åŠ¨å¾ˆç®€å•:    
   
     ./coreos_production_qemu.sh -nographic
 

@@ -1,9 +1,9 @@
-# CoreOS �����ֲ�
+﻿# CoreOS 中文手册
 
-��Щ�����汾���ĵ���[coreos.com](http://coreos.com/docs/vagrant/)�Ͽɲ���
+这些公开版本的文档在[coreos.com](http://coreos.com/docs/vagrant/)上可查阅
 
-1. ���������ķ�֧
-2. ����һ��Pull����
-3. ���ǻ���[coreos.com](http://coreos.com)��ȡ����޸�
+1. 创建这个库的分支
+2. 发送一个Pull请求
+3. 我们会在[coreos.com](http://coreos.com)获取你的修复
 
-лл��Ĺ��׺��޸�
+谢谢你的贡献和修复
