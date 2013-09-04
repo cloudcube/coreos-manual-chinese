@@ -28,15 +28,15 @@ QEMU不但可以运行在Linux系统，还可运行在Windows和OSX,但是最好运行在Linux。
 
 ### [Debian][debian-link] 或者 [Ubuntu][ubuntu-link]
 
-Documentation for [Debian文档][qemudeb] 有更多的细节 ，但开始的话你只需要：
+[Debian文档][qemudeb] 有更多的细节 ，但开始的话你只需要：
 
     sudo apt-get install qemu-system-x86 qemu-utils
 
 [qemudeb]: https://wiki.debian.org/QEMU
 
-### Fedora or Red Hat
+### Fedora 或者 Red Hat
 
-The Fedora wiki has a [quick howto][qemufed] but the basic install is easy:
+Fedora的维基上有一份 [快速指南][qemufed] 但是基础安装非常的简单:
 
     sudo yum install qemu-system-x86 qemu-img
 
@@ -44,17 +44,18 @@ The Fedora wiki has a [quick howto][qemufed] but the basic install is easy:
 
 ### Arch
 
-This is all you need to get started:
+这是你开始所需要做的:
 
     sudo pacman -S qemu
 
-More details can be found on [Arch's QEMU wiki page](https://wiki.archlinux.org/index.php/Qemu).
+[Arch's QEMU 维基页面][arch-qemu-wiki-link],你能够发现更多细节.
+[arch-qemu-wiki-link]:https://wiki.archlinux.org/index.php/Qemu
 
 ### Gentoo
 
-As to be expected Gentoo can be a little more complicated but all the
-required kernel options and USE flags are covered in the [Gentoo
-Wiki][qemugen]. Usually this should be sufficient:
+正如我们所预期的那样，Gentoo可能会复杂些，
+但所有的所需的内核选项和USE标识都包含在 [Gentoo
+维基][qemugen]. 一般来说，这样就足够了:
 
     echo app-emulation/qemu qemu_softmmu_targets_x86_64 virtfs xattr >> /etc/portage/package.use
     emerge -av app-emulation/qemu
@@ -62,20 +63,23 @@ Wiki][qemugen]. Usually this should be sufficient:
 [qemugen]: http://wiki.gentoo.org/wiki/QEMU
 
 
-## Startup CoreOS
+## 启动[CoreOS][coreos-link]
 
-Once QEMU is installed you can download and start the latest CoreOS
-image. There are two files you need: the disk image (provided in qcow2
-format) and the wrapper shell script to start QEMU.
+[QEMU][qemu-link]安装完成后，你可以下载并且启动最新的CoreOS镜像.
+这里你需要两个文件:  
 
-    mkdir coreos; cd coreos
-    wget http://storage.core-os.net/coreos/amd64-generic/dev-channel/coreos_production_qemu.sh
-    wget http://storage.core-os.net/coreos/amd64-generic/dev-channel/coreos_production_qemu_image.img.bz2
-    chmod +x coreos_production_qemu.sh
+1. 磁盘镜像（以qcow2的格式提供）  
+
+2. 启动[QEMU][qemu-link]的shell脚本 
+
+    mkdir coreos; cd coreos     
+    wget http://storage.core-os.net/coreos/amd64-generic/dev-channel/coreos_production_qemu.sh  
+    wget http://storage.core-os.net/coreos/amd64-generic/dev-channel/coreos_production_qemu_image.img.bz2  
+    chmod +x coreos_production_qemu.sh 
     bunzip2 coreos_production_qemu_image.img.bz2
-
-Starting is as simple as:
-
+	
+启动很简单:    
+  
     ./coreos_production_qemu.sh -nographic
 
 ### SSH Keys
@@ -122,3 +126,4 @@ the [Using CoreOS][using-coreos] guide.
 [debian-link]:http://www.debian.org
 [ubuntu-link]:http://www.ubuntu.com
 [qemu-link]:http://www.qemu.org
+[coreos-link]:http://coreos.com
