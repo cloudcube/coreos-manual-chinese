@@ -1,35 +1,34 @@
 ---
 layout: docs
 slug: qemu
-title: Documentation
+标题: 文档
 ---
 
-# Running CoreOS on QEMU
+# 在[QEMU][qemu-link]上运行CoreOS
 
-CoreOS is currently in heavy development and actively being tested.
-These instructions will bring up a single CoreOS instance under QEMU,
-the small Swiss Army knife of virtual machine and CPU emulators.
-If you need to do more such as [configuring networks][qemunet]
-differently refer to the [QEMU Wiki][qemuwiki] and [User
-Documentation][qemudoc].
+[CoreOS](http://coreos.com) 正处于巨大的开发中，并且被积极的测试.
 
-You can direct questions to the [IRC channel][irc] or [mailing
-list][coreos-dev].
+这些说明将指导你在QEMU下运行一个单独CoreOS实例,
+[QEMU](http://www.qemu.org)有着小瑞士军刀美誉的虚拟机和CPU仿真器。
+如果你需要做的更多，可参考[配置网络][qemunet]、[QEMU 文档][qemuwiki] 和 [用户手册][qemudoc].
+
+你可以直接到 [IRC 通道][irc] 或者 [邮件列表][coreos-dev]咨询.
 
 [qemunet]: http://wiki.qemu.org/Documentation/Networking
 [qemuwiki]: http://wiki.qemu.org/Manual
 [qemudoc]: http://qemu.weilnetz.de/qemu-doc.html
+[irc]:irc://irc.freenode.org:6667/#coreos
+[coreos-dev]:https://groups.google.com/forum/#!forum/coreos-dev
 
 
-## Install QEMU
+## 安装 [QEMU][qemu-link]
 
-In addition to Linux it can be run on Windows and OSX but works best on
-Linux. It should be available on just about any distro.
+QEMU不但可以运行在Linux系统，还可运行在Windows和OSX,但是最好运行在Linux。
+并且可运行在任何Linux发行版。
 
-### Debian or Ubuntu
+### [Debian][debian-link] 或者 [Ubuntu][ubuntu-link]
 
-Documentation for [Debian][qemudeb] has more details but to get started
-all you need is:
+Documentation for [Debian文档][qemudeb] 有更多的细节 ，但开始的话你只需要：
 
     sudo apt-get install qemu-system-x86 qemu-utils
 
@@ -120,3 +119,6 @@ Now you can log in to the virtual machine with:
 
 Now that you have a machine booted it is time to play around. Check out
 the [Using CoreOS][using-coreos] guide.
+[debian-link]:http://www.debian.org
+[ubuntu-link]:http://www.ubuntu.com
+[qemu-link]:http://www.qemu.org
