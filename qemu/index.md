@@ -1,4 +1,4 @@
-﻿# 在[QEMU][qemu-link]上运行CoreOS
+# 在[QEMU][qemu-link]上运行CoreOS
 
 [CoreOS](http://coreos.com) 正处于巨大的开发中，并且被积极的测试.
 
@@ -22,9 +22,14 @@ QEMU不但可以运行在Linux系统，还可运行在Windows和OSX,但是最好
 
 ### [Debian][debian-link] 或者 [Ubuntu][ubuntu-link]
 
-[Debian文档][qemudeb] 有更多的细节 ，但开始的话你只需要：
+[Debian文档][qemudeb] 有更多的细节 ，但开始的话你只需要：  
 
-    sudo apt-get install qemu-system-x86 qemu-utils
+```  
+$ sudo add-apt-repository ppa:linaro-maintainers/tools  
+$ sudo apt-get update  
+$ sudo apt-get install qemu-user-static qemu-system qemu-utils  
+      
+```
 
 [qemudeb]: https://wiki.debian.org/QEMU
 
@@ -67,7 +72,7 @@ Fedora的维基上有一份 [快速指南][qemufed] 但是基础安装非常的�
 2. 启动[QEMU][qemu-link]的shell脚本
  
     mkdir coreos;  
-    cd coreos
+    cd coreos  
     wget http://storage.core-os.net/coreos/amd64-generic/dev-channel/coreos_production_qemu.sh  
     wget http://storage.core-os.net/coreos/amd64-generic/dev-channel/coreos_production_qemu_image.img.bz2    
     chmod +x coreos_production_qemu.sh  
