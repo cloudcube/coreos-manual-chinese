@@ -10,60 +10,60 @@ CoreOS是一个开源项目.所有的源码都托管在[github][github-coreos].�
 [irc]: irc://irc.freenode.org:6667/#coreos
 [coreos-dev]: https://groups.google.com/forum/#!forum/coreos-dev
 
-## Getting Started
+## 入门
 
-Let's get set up with an SDK chroot and build a bootable image of CoreOS. The
-SDK chroot has a full toolchain and isolates the build process from quirks and
-differences between host OSes. The SDK must be ran on an x86-64 Linux machine,
-the distro should not matter (Ubuntu, Fedora, etc).
+让我们设置一个SDK的chroot并建立一个可启动的CoreOS镜像.
+SDK chroot 有一个完整的工具链和从宽松的不同系统间构建进程得到隔离. SDK 必须运行在64位的Linux机器上,
+任何Linux发行版都可([Ubuntu][ubuntu-link], [Fedora][fedora-link],等).
+[ubuntu-link]:http://www.ubuntu.com
+[fedora-link]:http://www.fedoraproject.org  
 
-### Prerequisites
+### 先决条件
 
-System requirements to get started:
+系统先决条件入门:
 
 - curl
 - git
 
-You also need a proper git setup:
+你还需要设置git:
 
-```
-git config --global user.email "you@example.com"
-git config --global user.name "Your Name"
-```
+```  
 
-**NOTE**: Do the git configuration as a normal user and not with sudo.
-
-### Install depot_tools
-
-`repo`, one of the `depot_tools`, helps to manage the collection of git
-repositories that makes up CoreOS. Pull down the code and add it to your
-path:
-
-```
-git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
-export PATH="$PATH":`pwd`/depot_tools
+git config --global user.email "you@example.com"  
+git config --global user.name "Your Name"  
+  
 ```
 
-You may want to add this to your .bashrc or /etc/profile.d/ so that you don’t
-need to reset your $PATH manually each time you open a new shell.
+**注意**: 配置git普通用户权限就够了，没有必要用超级管理员.
 
-### Bootstrap the SDK chroot
+### 安装 depot_tools
 
-Create a project directory. This will hold all of your git repos and the SDK
-chroot. A few gigs of space will be necessary.
+`depot_tools`其中的一个是`repo`, 帮助我们收集制作CoreOS的git资源库. Pull down 代码并添加到你的路径:
+
+```  
+  
+git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git  
+export PATH="$PATH":`pwd`/depot_tools  
+  
+```
+
+你可以将此添加到`.bashrc`或者`/etc/profile.d/` 当你每次打开一个新的终端的时候，你就不用再重新手动设置`$PATH`.
+
+### 引导 SDK chroot
+
+创建一个工程目录. 这里将防止你的所有的git资源库和SDK chroot.拥有足够的空间是必须的.
 
 ```
 mkdir coreos; cd coreos
 ```
 
-Initialize the .repo directory with the manifest that describes all of the git
-repos required to get started.
+使用描述开始所必须的git资源库的描述清单初始化.repo文件夹.
 
 ```
 repo init -u https://github.com/coreos/manifest.git -g minilayout --repo-url  https://git.chromium.org/git/external/repo.git
 ```
 
-Synchronize all of the required git repos from the manifest.
+根据清单同步所有需要的git资源库.
 
 ```
 repo sync
