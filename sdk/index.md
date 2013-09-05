@@ -1,18 +1,8 @@
----
-layout: docs
-slug: sdk
-title: Documentation
----
+# CoreOS 开发者指南
 
-# CoreOS Developer SDK Guide
+这些都是构建CoreOS本身的说明. 最终，将知道你构建一个运行在KVM并且使你能够修改代码的开发者镜像.
 
-These are the instructions for building CoreOS itself. By the end of
-the guide you will build a developer image that you can run under
-KVM and have tools for making changes to the code.
-
-CoreOS is an open source project. All of the source for CoreOS is
-available on [github][github-coreos]. If you find issues with these docs
-or the code please send a pull request.
+CoreOS是一个开源项目.所有的源码都托管在[github][github-coreos].如果你发现这些文档和代码有问题，请发送一个pull请求.
 
 You can direct questions to the [IRC channel][irc] or [mailing list][coreos-dev].
 
