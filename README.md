@@ -10,6 +10,7 @@
 
 ## 已经完成章节
 * [QEMU运行CoreOS](qemu/index.md)
-* [使用CoreOS](using-coreos/index.md)
+* [使用CoreOS](using-coreos/index.md)  
+
 ## 正在翻译的章节
 * [CoreOS开发者指南](sdk/index.md)
