@@ -27,7 +27,7 @@ QEMU不但可以运行在Linux系统，还可运行在Windows和OSX,但是最好
 ```  
 $ sudo add-apt-repository ppa:linaro-maintainers/tools  
 $ sudo apt-get update  
-$ sudo apt-get install qemu-user-static qemu-system qemu-utils  
+$ sudo apt-get install qemu qemu-user-static qemu-system qemu-utils  
       
 ```
 
@@ -80,7 +80,7 @@ Fedora的维基上有一份 [快速指南][qemufed] 但是基础安装非常的�
 		
 启动很简单:    
   
-    ./coreos_production_qemu.sh -nographic
+    ./coreos_production_qemu.sh --nographic
 
 ### SSH 密匙对
 
@@ -88,7 +88,7 @@ Fedora的维基上有一份 [快速指南][qemufed] 但是基础安装非常的�
 如果在默认的位置有效，该脚本会自动在ssh-agent寻找公共密匙`~/.ssh/id_dsa.pub` 或者 `~/.ssh/id_rsa.pub`.  
 如果你需要指定公共密匙位置请使用 -a 选项:
 
-    ./coreos_production_qemu.sh -a ~/.ssh/id_{dsa,rsa}.pub -- nographic
+    ./coreos_production_qemu.sh -a ~/.ssh/id_{dsa,rsa}.pub --nographic
 
 注意：选项`-a`必须指定在QEMU的任何选项之前.为了使两者有着明确的分离，你可以使用`--`,但这不是必须的。
 `./coreos_production_qemu.sh -h` 查看更多细节
