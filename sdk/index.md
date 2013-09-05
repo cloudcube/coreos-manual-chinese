@@ -1,10 +1,10 @@
 # CoreOS 开发者指南
 
-这些都是构建CoreOS本身的说明. 最终，将知道你构建一个运行在KVM并且使你能够修改代码的开发者镜像.
+这些都是构建CoreOS本身的说明. 最终，将指导你构建一个运行在KVM并且使你能够修改代码的开发者镜像.
 
 CoreOS是一个开源项目.所有的源码都托管在[github][github-coreos].如果你发现这些文档和代码有问题，请发送一个pull请求.
 
-You can direct questions to the [IRC channel][irc] or [mailing list][coreos-dev].
+你可以在 [IRC 通道][irc] 或者 [邮件列表][coreos-dev]直接提问.
 
 [github-coreos]: https://github.com/coreos/
 [irc]: irc://irc.freenode.org:6667/#coreos
