@@ -69,52 +69,50 @@ repo init -u https://github.com/coreos/manifest.git -g minilayout --repo-url  ht
 repo sync
 ```
 
-### Building an image
+### 构建一个镜像
 
-Download and enter the SDK chroot which contains all of the compilers and
-tooling.
+下载并且进入SDK chroot,它包含了所有的编译器和工具. 
+
 
 ```
 ./chromite/bin/cros_sdk
 ```
 
-**WARNING:** If you ever need to delete the SDK chroot use
-`./chromite/bin/cros_sdk --delete`. Otherwise, you will delete `/dev`
-entries that are bind mounted into the chroot.
+**警告:** 如何你需要删除SDK chroot，请使用
+`./chromite/bin/cros_sdk --delete`. 否则, 你将删除 `/dev`
+被绑定挂载在chroot的条目.
 
-Set up the "core" user's password.
+设置 "core" 用户的密码.
 
 ```
 ./set_shared_user_password.sh
 ```
 
-Target amd64-generic for this image:
+amd64-generic 通用镜像:
 
 ```
 echo amd64-generic > .default_board
 ```
 
-Setup a board root filesystem in /build/${BOARD}:
+在/build/${BOARD}中，设置一个新的额根文件系统:
 
 ```
 ./setup_board
 ```
 
-Build all of the target binary packages:
+建立所有目标的二进制包:
 
 ```
 ./build_packages
 ```
 
-Build an image based on the built binary packages along with the developer
-overlay:
+构建一个内置的，覆盖开发之间的镜像:
 
 ```
 ./build_image --noenable_rootfs_verification dev
 ```
 
-After this finishes up commands for converting the raw bin into
-a bootable vm will be printed. Run the `image_to_vm.sh` command.
+运行`image_to_vm.sh`命令,在这些命令完成后，这些将被转换为原型的可引导的虚拟机被打印.
 
 ### Booting
 
