@@ -170,45 +170,43 @@ start_devserver --port 8080
 /usr/local/bin/gmerge coreos-base/update_engine
 ```
 
-### Updating an Image with Update Engine
+### 使用更新引擎更新镜像
 
-If you want to test that an image you built can successfully upgrade a running
-VM you can use the `--image` argument to the devserver. Here is an example:
+如果你想测试一个你构建能够成功更新的运行的虚拟主机，你可以在开发服务器使用`--image`参数. 这里有个实例:
 
 ```
 start_devserver --image ../build/images/amd64-generic/latest/chromiumos_image.bin
 ```
 
-From the target virtual machine you run:
+从目标虚拟机器你运行:
 
 ```
 update_engine_client -update -omaha_url http://$WORKSTATION_HOSTNAME:8080/update
 ```
 
-If the update fails you can check the logs of the update engine by running:
+如果更新失败，你可以通过运行下面命令检查更新引擎的日志:
 
 ```
 journalctl -u update-engine -o cat
 ```
 
-If you want to download another update you may need to clear the reboot
-pending status:
+如果你想下载另外一个更新，你可能需要清除重新启动挂起状态:
 
 ```
 update_engine_client -reset_status
 ```
 
-### Updating portage-stable ebuilds from Gentoo
+### 从Gentoo更新portage-stable安装程序
 
-There is a utility script called `update_ebuilds` that can pull from Gentoo's
-CVS tree directly into your local portage-stable tree. Here is an example usage
-bumping go to the latest version:
+这是一种被称为`update_ebuilds`使用脚本 他能够从Gentoo's
+CVS 树直接拉到你本地的portage-stable 树. 下面是一个例子的用法
+替换到最新版本:
 
 ```
 ./update_ebuilds --commit dev-lang/go
 ```
 
-To create a Pull Request after the bump run:
+创建一个Pull请求后，立即运行:
 
 ```
 cd ~/trunk/src/third_party/portage-stable
@@ -216,42 +214,34 @@ git checkout -b 'bump-go'
 git push <your remote> bump-go
 ```
 
-## Production Workflows
+## 产品工作流
 
-### Building a Production Image
+### 构建一个产品镜像
 
-This will build an image that can be ran under KVM and uses near production
-values.
+这将建立一个能够在KVM下运行并且能够使用附近产品参数的镜像.
 
-Note: Add `COREOS_OFFICIAL=1` here if you are making a real release. That will
-change the version and enable uploads by default.
+注意: 如果你创建一个正式的发行版，你在这里添加 `COREOS_OFFICIAL=1` . 这将更改版本，默认情况下启用上载.
 
 ```
 ./build_image prod
 ```
 
-The generated production image is bootable as-is by qemu but for a
-larger STATE partition or VMware images use `image_to_vm.sh` as
-described in the final output of `build_image1`.
+生成的产品镜像能够被qemu引导，但是对于一个大的正式的分区或者VMware镜像使用`image_to_vm.sh` 在`build_image1`终端作为描述.
 
-### Pushing updates to the dev-channel
+### 推送更新到 dev-channel
 
-#### Manual Builds
+#### 手动构建
 
-To push an update to the dev channel track on api.core-os.net build a
-production images as described above and then use the following tool:
+推送一个更新到开发通道，通过在api.core-os.net按照上面描述的构建一个产品镜像，然后使用以下工具:
 
 ```
 COREOS_OFFICIAL=1 ./core_upload_update <required flags> --track dev-channel --image ../build/images/amd64-generic/latest/coreos_production_image.bin
 ```
 
-#### Automated builds
+#### 自动构建
 
-The automated build host does not have access to production signing keys
-so the final signing and push to api.core-os.net must be done elsewhere.
-The `au-generator.zip` archive provides the tools required to do this so
-a full SDK setup is not required. This does require gsutil to be
-installed and configured.
+自动构建主机没有权限生产签名密匙，因此最终的签名和推送到api.core-os.net必须在别处进行.
+`au-generator.zip` 存档提供了所需的工具，因此一个完成的SDK设置不是必须的. 这里需要安装和配置gsutil.
 
 ```
 URL=gs://storage.core-os.net/coreos/amd64-generic/0000.0.0
@@ -262,52 +252,47 @@ bunzip2 coreos_production_image.bin.bz2
 COREOS_OFFICIAL=1 ./core_upload_update <required flags> --track dev-channel --image coreos_production_image.bin
 ```
 
-## Tips and Tricks
+## 技巧和诀窍
 
-### Finding all open pull requests and issues
+### 查找所有打开的pull请求和问题
 
-- [CoreOS Issues][issues]
-- [CoreOS Pull Requests][pullrequests]
+- [CoreOS 问题][issues]
+- [CoreOS Pull 请求][pullrequests]
 
 [issues]: https://github.com/organizations/coreos/dashboard/issues/
 [pullrequests]: https://github.com/organizations/coreos/dashboard/pulls/
 
-### Searching all repo code
+### 检索所有的 repo 代码
 
-Using `repo forall` you can search across all of the git repos at once:
+使用 `repo forall` 你可以同时检索所有的git repos:
 
 ```
 repo forall -c  git grep 'CONFIG_EXTRA_FIRMWARE_DIR'
 ```
 
-### Caching git https passwords
+### 缓存git的https密码
 
-Note: You need git 1.7.10 or newer to use the credential helper
+注意: 你需要 git 1.7.10+ 使用凭证助手
 
-Turn on the credential helper and git will save your password in memory
-for some time:
+开启credential helper 并且 git 将会一段时间内在内存中保存你的密码:
 
 ```
 git config --global credential.helper cache
 ```
 
-Why doesn't CoreOS use SSH in the git remotes? Because, we can't do
-anonymous clones from github with a ssh URL. In the future we will fix
-this.
+CoreOS为什么在git远程仓库中使用SSH? 因为, 我们不允许匿名者使用SSH地址从github上克隆项目. 在将来我们将修复这个问题.
 
-### Base system dependency graph
+### 基础系统依赖图
 
-Get a view into what the base system will contain and why it will contain those
-things with the emerge tree view:
+给一个试图深入到基础系统将包含那些和为什么包含这些emerge tree试图的东西:
 
 ```
 emerge-amd64-generic  --emptytree  -p -v --tree  coreos-base/coreos-dev
 ```
 
-### SSH Config
+### SSH 配置
 
-You will be booting lots of VMs with on the fly ssh key generation. Add
-this in your `$HOME/.ssh/config` to stop the annoying fingerprint warnings.
+你将启动大量的虚拟机并且生成ssh密匙. 添加这个到你的`$HOME/.ssh/config` 停止烦人的指纹警告.
 
 ```
 Host 127.0.0.1
@@ -317,41 +302,34 @@ Host 127.0.0.1
   LogLevel QUIET
 ```
 
-### Hide loop devices from desktop environments
+### 从桌面环境隐藏loop devices
 
-By default desktop environments will diligently display any mounted devices
-including loop devices used to contruct CoreOS disk images. If the daemon
-responsible for this happens to be ``udisks`` then you can disable this
-behavior with the following udev rule:
+默认的桌面环境将显示任何挂在的设备，包括用于构建CoreOS磁盘镜像的loop devices. 如果守护进程作为``udisks``负责这些产生，那么你可以使用接下来的udev规则禁用这个行为:
 
 ```
 echo 'SUBSYSTEM=="block", KERNEL=="ram*|loop*", ENV{UDISKS_PRESENTATION_HIDE}="1", ENV{UDISKS_PRESENTATION_NOPOLICY}="1"' > /etc/udev/rules.d/85-hide-loop.rules
 udevadm control --reload
 ```
 
-### Leaving developer mode
+### 离开开发模式
 
-Some daemons act differently in "dev mode". For example update_engine refuses
-to auto-update or connect to HTTPS URLs. If you need to test something out of
-dev_mode on a vm you can do the following:
+有些守护进程在"dev mode"中实际不一样. 例如 update_engine 拒绝自动更新或者链接到https. 如果你需要在虚拟机上的dev_mod测试出一些东西，你可以参照下面的方法:
 
 ```
 mv /root/.dev_mode{,.old}
 ```
 
-If you want to permanently leave you can run the following:
+如果你想永久的离开，你可以运行:
 
 ```
 crossystem disable_dev_request=1; reboot
 ```
 
-## Known Issues
+## 已知问题
 
-### build\_packages fails on coreos-base
+### coreos-base构建包失败
 
-Sometimes coreos-dev or coreos builds will fail in `build_packages` with a
-backtrace pointing to `epoll`. This hasn't been tracked down but running
-`build_packages` again should fix it. The error looks something like this:
+一些时间 coreos-dev 或者 coreos 构建在`build_packages`中会失败 使用一个回溯指向`epoll`. 这没有被追踪但是再次运行`build_packages`将修复它. 错误看起来像这样:
 
 ```
 Packages failed:
@@ -359,17 +337,17 @@ coreos-base/coreos-dev-0.1.0-r63
 coreos-base/coreos-0.0.1-r187
 ```
 
-## Constants and IDs
+## 常量 和 IDs
 
-### CoreOS App ID
+### CoreOS 应用 ID
 
-This UUID is used to identify CoreOS to the update service and elsewhere.
+此UUID用来识别在任何地方识别CoreOS的更新服务.
 
 ```
 e96281a6-d1af-4bde-9a0a-97b76e56dc57
 ```
 
-### GPT UUID Types
+### GPT UUID 类型
 
 - CoreOS Root: 5dfbf5f4-2848-4bac-aa5e-0d9a20b745a6
 - CoreOS Reserved: c95dc21a-df0e-4340-8d7b-26cbfa9a03e0
