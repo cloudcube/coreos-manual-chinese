@@ -114,73 +114,57 @@ echo amd64-generic > .default_board
 
 运行`image_to_vm.sh`命令,在这些命令完成后，这些将被转换为原型的可引导的虚拟机被打印.
 
-### Booting
+### 启动
 
-Once you build an image you can launch it with KVM (instructions will
-print out after `image_to_vm.sh` runs).
+当你构建了一个镜像，你可以使用KVM运行他(运行`image_to_vm.sh`将打印出指令说明).
 
-To demo the general direction we are starting in now the OS starts two
-small daemons that you can access over an HTTP interface. The first,
-systemd-rest, allows you to stop and start units via HTTP. The other is a
-small server that you can play with shutting off and on called
-motd-http. You can try these daemons with:
+演示的大致方向是我们在现在的系统启动两个小的守护进程，使你能够通过HTTP的接口进行访问.首先，
+systemd-rest,允许你通过HTTP停止或启动服务单元.另一种是可以随时使用和随时关闭的小型服务器.你可以试试这些守护进程:  
 
 ```
-curl http://127.0.0.1:8000
-curl http://127.0.0.1:8080/units/motd-http.service/stop/replace
-curl http://127.0.0.1:8000
-curl http://127.0.0.1:8080/units/motd-http.service/start/replace
+curl http://127.0.0.1:8000  
+curl http://127.0.0.1:8080/units/motd-http.service/stop/replace  
+curl http://127.0.0.1:8000  
+curl http://127.0.0.1:8080/units/motd-http.service/start/replace  
 ```
 
-## Making Changes
+## 改变
 
-### git and repo
+### git 和 repo
 
-CoreOS is managed by `repo`. It was built for the Android project and makes
-managing a large number of git repos easier, from the announcement blog:
+`repo`管理CoreOS. 它是专门为Android项目构建并且使管理大量的git仓库更加容易,以下是博客公告:
 
-> The repo tool uses an XML-based manifest file describing where the upstream
-> repositories are, and how to merge them into a single working checkout. repo
-> will recurse across all the git subtrees and handle uploads, pulls, and other
-> needed items. repo has built-in knowledge of topic branches and makes working
-> with them an essential part of the workflow.
-> -- via the [Google Open Source Blog][repo-blog]
+> repo 工具使用一种基于XML的清单文件描述上游的资料库, 以及如何合并他们到一个单独的工作台.
+>. repo将递归所有的git子树并且处理上传，拉和其他需要的项目. repo 有内建的知识主题分支并且使他们成为工作流必不可少的一部分.
+> -- 引用 [谷歌开源博客][repo-blog]
 
 [repo-blog]: http://google-opensource.blogspot.com/2008/11/gerrit-and-repo-android-source.html
 
-You can find the full manual for repo by visiting [Version Control with Repo and Git][vc-repo-git].
+要知道repo完全使用手册，访问 [使用Repo and Git进行版本管理][vc-repo-git].
 
 [vc-repo-git]: http://source.android.com/source/version-control.html
 
-### Updating repo manifests
+### repo 更新清单
 
-The repo manifest for CoreOS lives in a git repository in
-`.repo/manifests`. If you need to update the manifest edit `default.xml`
-in this directory.
+CoreOS lives的repo清单在git仓库`.repo/manifests`中. 如果你需要更新这个清单，在这个目录中编辑文件`default.xml`.
 
-`repo` uses a branch called 'default' to track the upstream branch you
-specify in `repo init`, this defaults to 'origin/master'. Keep this in
-mind when making changes, the origin git repository should not have a
-'default' branch.
+`repo` 使用的一个名为 'default'分支 来跟踪你在`repo init`中指定的上游分支, 默认是'origin/master'. 在改变的时候一定要记住这一点, 开始的git版本库应该没有一个'default'分支.
 
-## Development Workflows
+## 开发流程
 
-### Updating Packages on an Image
+### 在一个镜像上更新软件包
 
-Building a new VM image is time consuming process. On development images you
-can use `gmerge` to build packages on your workstation and ship them to your
-target VM.
+构建一个新的虚拟机镜像是一个很耗时的一个过程. 在开发镜像上你可以使用`gmerge`在你的工作站来构建包并且在你的目标虚拟上传送他们.
 
-1. On your workstation start the dev server inside the SDK chroot:
+1. 在你的工作站上SDK chroot内启动开发服务器:
 
 ```
 start_devserver --port 8080
 ```
 
-NOTE: This port will need to be internet accessible.
+注意: 此端口将需要互联网访问
 
-2. Run /usr/local/bin/gmerge from your VM and ensure that the settings in
-   `/etc/lsb-release` point to your workstation IP/hostname and port
+2. 从你的虚拟机运行/usr/local/bin/gmerge 并且确保在`/etc/lsb-release`中的设置指向你的工作站的IP/主机名称和端口
 
 ```
 /usr/local/bin/gmerge coreos-base/update_engine
