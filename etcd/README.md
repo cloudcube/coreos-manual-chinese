@@ -1,33 +1,33 @@
 # etcd
-README version 0.1.0
+README 版本 0.1.0
 
-[![Build Status](https://travis-ci.org/coreos/etcd.png)](https://travis-ci.org/coreos/etcd)
+[![构建状态](https://travis-ci.org/coreos/etcd.png)](https://travis-ci.org/coreos/etcd)
 
-A highly-available key value store for shared configuration and service discovery. etcd is inspired by zookeeper and doozer, with a focus on:
+一个高度可用的共享配置和服务发现的键值存储. etcd 的灵感来源与动物管理员和表演者, 它将专注与:
 
-* Simple: curl'able user facing API (HTTP+JSON)
-* Secure: optional SSL client cert authentication
-* Fast: benchmarked 1000s of writes/s per instance
-* Reliable: Properly distributed using Raft
+* 简单: curl可访问的用户的API (HTTP+JSON)
+* 安全: 可选的SSL客户端证书认证
+* 快树: 单实例基准1000的写入速度
+* 可靠: 大量的应用分布式
 
-Etcd is written in Go and uses the [raft][raft] consensus algorithm to manage a highly-available replicated log.
+Etcd 使用Go语言编写并且使用 [raft][raft] 一致性算法来管理一个高靠用复制日志.
 
-See [etcdctl][etcdctl] for a simple command line client. Or feel free to just use curl, as in the examples below.
+查看 [etcdctl][etcdctl] 一个简单的命令行客户端. 或者随意使用curl，Or feel free to just use curl, 在下面的例子中.
 
 [raft]: https://github.com/coreos/go-raft
 [etcdctl]: http://coreos.com/docs/etcdctl/
 
-## Getting Started
+## 入门
 
-### Getting etcd
+### 获取 etcd
 
-The latest release is available as a binary at [Github][github-release].
+在github[github-release]可获取最新的可用的二进制包.  
 
 [github-release]: https://github.com/coreos/etcd/releases/
 
-### Building
+### 构建
 
-You can build etcd from source:
+你可以从源码构建etcd:
 
 ```sh
 git clone https://github.com/coreos/etcd
@@ -35,15 +35,15 @@ cd etcd
 ./build
 ```
 
-This will generate a binary in the base directory called `./etcd`.
+这将在基本目录生成一个名为 `./etcd`二进制包.
 
-_NOTE_: you need go 1.1+. Please check your installation with
+_注意_: 你需要 go 1.1+. 请使用一下命令检查你的go的安装
 
 ```
 go version
 ```
 
-### Running a single node
+### 单节点运行
 
 These examples will use a single node cluster to show you the basics of the etcd REST API. Lets start etcd:
 
