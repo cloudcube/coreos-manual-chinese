@@ -69,22 +69,22 @@ curl -L http://127.0.0.1:4001/v1/keys/message -d value="Hello world"
 {"action":"SET","key":"/message","value":"Hello world","newKey":true,"index":3}
 ```
 
-This response contains five fields. We will introduce three more fields as we try more commands.
+这个响应包含5个字段，我们将介绍三个字段，我们也可以尝试更多的命令.
 
-1. The action of the request; we set the value via a POST request, thus the action is `SET`.
+1. 请求动作;我们通过POST请求设置值，因此这个动作是`SET`.
 
-2. The key of the request; we set `/message` to `Hello world!`, so the key field is `/message`.
-Notice we use a file system like structure to represent the key-value pairs. So each key starts with `/`.
+2. 请求关键字;我们设置 `/message` 到 `Hello world!`, 因此关键字段是 `/message`.
+注意 我们使用一个像结构的文件系统来表示键值对. 因此每个键使用`/`开始.
 
-3. The current value of the key; we set the value to`Hello world`.
+3. 当前的键值;我们设置值为`Hello world`.
 
-4. If we set a new key; `/message` did not exist before, so this is a new key.
+4. 如果我们设置一个新的键; 在之前`/message`不存在, 因此这是一个新的键.
 
-5. Index is the unique internal log index of the set request. Requests that change the log index include `SET`, `DELETE` and `TESTANDSET`. The `GET`, `LIST` and `WATCH` commands do not change state in the store and so they do not change the index. You may notice that in this example the index is 3, although it is the first request you sent to the server. This is because there are internal commands that also change the state like adding and syncing servers.
+5. 索引是单独的内部日志索引的请求集合. 改变日志索引的请求包括 `SET`, `DELETE` 和 `TESTANDSET`.  `GET`, `LIST` 和 `WATCH` 命令 不能够改变存储中的状态，所以他们不改变索引. 你需要注意的是在这个例子中索引是3, 尽管这是你发给服务器的第一个请求. 这是因为这丽有想添加和同步服务器的内部命令改变命令.
 
-### Get the value of a key
+### 获取键值
 
-Get the value that we just set in `/message` by issuing a GET:
+我们通过发送 GET在 `/message`中获取值:
 
 ```sh
 curl -L http://127.0.0.1:4001/v1/keys/message
@@ -93,9 +93,9 @@ curl -L http://127.0.0.1:4001/v1/keys/message
 ```json
 {"action":"GET","key":"/message","value":"Hello world","index":3}
 ```
-### Change the value of a key
+### 修改键值
 
-Change the value of `/message` from `Hello world` to `Hello etcd` with another POST to the key:
+使用另外一个POST修改`/message`的键值从 from `Hello world` to到 `Hello etcd`:
 
 ```sh
 curl -L http://127.0.0.1:4001/v1/keys/message -d value="Hello etcd"
@@ -105,11 +105,11 @@ curl -L http://127.0.0.1:4001/v1/keys/message -d value="Hello etcd"
 {"action":"SET","key":"/message","prevValue":"Hello world","value":"Hello etcd","index":4}
 ```
 
-Notice that the `prevValue` is set to `Hello world`.
+注意`prevValue` is 被设置为 `Hello world`.
 
-### Delete a key
+### 删除一个键
 
-Remove the `/message` key with a DELETE:
+使用DELETE移除键 `/message`:
 
 ```sh
 curl -L http://127.0.0.1:4001/v1/keys/message -X DELETE
@@ -119,7 +119,7 @@ curl -L http://127.0.0.1:4001/v1/keys/message -X DELETE
 {"action":"DELETE","key":"/message","prevValue":"Hello etcd","index":5}
 ```
 
-### Using key TTL
+### 使用键 TTL
 
 Keys in etcd can be set to expire after a specified number of seconds. That is done by setting a TTL (time to live) on the key when you POST:
 
