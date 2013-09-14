@@ -45,21 +45,21 @@ go version
 
 ### 单节点运行
 
-These examples will use a single node cluster to show you the basics of the etcd REST API. Lets start etcd:
+这些例子将使用单节点集群，向你展示基础的etcd REST API.让我们启动etcd:
 
 ```sh
 ./etcd -d node0 -n node0
 ```
 
-This will bring up an etcd node listening on port 4001 for client communication and on port 7001 for server-to-server communication.
-The `-d node0` argument tells etcd to write node configuration, logs and snapshots to the `./node0/` directory.
-The `-n node0` tells the rest of the cluster that this node is named node0.
+etcd将为客户端通信监听4001端口和为服务器之间通信监听7001端口.
+参数 `-d node0` 告诉我们etcd将向`./node0/`目录写入节点配置，日志和快照.
+`-n node0` 告诉其余的集群节点名`node0`.
 
-## Usage
+## 用法
 
-### Setting the value to a key
+### 设置该值为主键
 
-Let’s set the first key-value pair to the node. In this case the key is `/message` and the value is `Hello world`.
+让我们设置第一个节点键值对. 在这个例子中键是 `/message` 和值是 `Hello world`.
 
 ```sh
 curl -L http://127.0.0.1:4001/v1/keys/message -d value="Hello world"
