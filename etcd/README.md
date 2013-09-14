@@ -121,7 +121,7 @@ curl -L http://127.0.0.1:4001/v1/keys/message -X DELETE
 
 ### 使用键 TTL
 
-Keys in etcd can be set to expire after a specified number of seconds. That is done by setting a TTL (time to live) on the key when you POST:
+在etcd中可以设置键在一个制定的秒数后过期. 当你POST,这是一个在键上设置TTL(生存时间):
 
 ```sh
 curl -L http://127.0.0.1:4001/v1/keys/foo -d value=bar -d ttl=5
@@ -131,59 +131,59 @@ curl -L http://127.0.0.1:4001/v1/keys/foo -d value=bar -d ttl=5
 {"action":"SET","key":"/foo","value":"bar","newKey":true,"expiration":"2013-07-11T20:31:12.156146039-07:00","ttl":4,"index":6}
 ```
 
-Note the last two new fields in response:
+注意 最后两个字段的响应:
 
-1. The expiration is the time that this key will expire and be deleted.
+1. 到期时间键将过期并且被删除.
 
-2. The ttl is the time to live of the key.
+2. ttl是键的生存时间.
 
-Now you can try to get the key by sending:
+现在你可以尝试通过发送一下信息获得键:
 
 ```sh
 curl -L http://127.0.0.1:4001/v1/keys/foo
 ```
 
-If the TTL has expired, the key will be deleted, and you will be returned a 100.
+如果TTL已经过期, 键已经被删除,并且你会被返回一个100.
 
 ```json
 {"errorCode":100,"message":"Key Not Found","cause":"/foo"}
 ```
 
-### Watching a prefix
+### 查看前缀
 
-We can watch a path prefix and get notifications if any key change under that prefix.
+如果任何键在前缀发生改变，我们可以查看前缀路径，并且获取通知.
 
-In one terminal, we send a watch request:
+在一个终端，我们发送查看请求:
 
 ```sh
 curl -L http://127.0.0.1:4001/v1/watch/foo
 ```
 
-Now, we are watching at the path prefix `/foo` and wait for any changes under this path.
+现在，我们可以查看在前缀路径 `/foo`并且在这个路径下等待改变.
 
-In another terminal, we set a key `/foo/foo` to `barbar` to see what will happen:
+在另外一个终端, 我们设置一个键从 `/foo/foo` 到 `barbar` 将会发生什么呢:
 
 ```sh
 curl -L http://127.0.0.1:4001/v1/keys/foo/foo -d value=barbar
 ```
 
-The first terminal should get the notification and return with the same response as the set request.
+第一个终端可能获取到通知并且返回使用相同的响应作为请求集合.
 
 ```json
 {"action":"SET","key":"/foo/foo","value":"barbar","newKey":true,"index":7}
 ```
 
-However, the watch command can do more than this. Using the the index we can watch for commands that has happened in the past. This is useful for ensuring you don't miss events between watch commands.
+然而，查看命令能够做的不仅于此. 使用索引我们可以查看过去发生的命令. 这是非常有用的确保你不会错过两个命令之间的事件.
 
-Let's try to watch for the set command of index 6 again:
+让我们再次尝试查看索引为6的命令集合:
 
 ```sh
 curl -L http://127.0.0.1:4001/v1/watch/foo -d index=7
 ```
 
-The watch command returns immediately with the same response as previous.
+查看命令立即返回以前相同的响应.
 
-### Atomic Test and Set
+### 原子测试与设置
 
 Etcd can be used as a centralized coordination service in a cluster and `TestAndSet` is the most basic operation to build distributed lock service. This command will set the value only if the client provided `prevValue` is equal the current key value.
 
