@@ -185,42 +185,42 @@ curl -L http://127.0.0.1:4001/v1/watch/foo -d index=7
 
 ### 原子测试与设置
 
-Etcd can be used as a centralized coordination service in a cluster and `TestAndSet` is the most basic operation to build distributed lock service. This command will set the value only if the client provided `prevValue` is equal the current key value.
+在集群中Etcd被作为集中协调服务和`TestAndSet` 是构建分布式锁服务的最基本的操作. 只有当客户端提供的`prevValue`等于当前键值，这个命令将设置值.
 
-Here is a simple example. Let's create a key-value pair first: `testAndSet=one`.
+这里有一个简单的例子. 首先我们创建一个键值对: `testAndSet=one`.
 
 ```sh
 curl -L http://127.0.0.1:4001/v1/keys/testAndSet -d value=one
 ```
 
-Let's try an invaild `TestAndSet` command.
-We can give another parameter prevValue to set command to make it a TestAndSet command.
+然我们尝试一个无效的 `TestAndSet` 命令.
+我们可以给出一个prevValue参数来设置TestAndSet命令.
 
 ```sh
 curl -L http://127.0.0.1:4001/v1/keys/testAndSet -d prevValue=two -d value=three
 ```
 
-This will try to test if the previous of the key is two, it is change it to three.
+这将尝试测试如果以前的键是2，那么他就变成了3.
 
 ```json
 {"errorCode":101,"message":"The given PrevValue is not equal to the value of the key","cause":"TestAndSet: one!=two"}
 ```
 
-which means `testAndSet` failed.
+这意味着`testAndSet` 失败.
 
-Let us try a vaild one.
+让我们尝试一个有效的.
 
 ```sh
 curl -L http://127.0.0.1:4001/v1/keys/testAndSet -d prevValue=one -d value=two
 ```
 
-The response should be
+响应应该这样:
 
 ```json
 {"action":"SET","key":"/testAndSet","prevValue":"one","value":"two","index":10}
 ```
 
-We successfully changed the value from “one” to “two”, since we give the correct previous value.
+我们成功的修改值从 “one” 到 “two”, 因为我们给了正确的前一个值.
 
 ### Listing a directory
 
