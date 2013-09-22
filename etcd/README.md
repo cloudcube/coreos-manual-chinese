@@ -7,7 +7,7 @@ README 版本 0.1.0
 
 * 简单: curl可访问的用户的API (HTTP+JSON)
 * 安全: 可选的SSL客户端证书认证
-* 快树: 单实例基准1000的写入速度
+* 快速: 单实例基准1000的写入速度
 * 可靠: 大量的应用分布式
 
 Etcd 使用Go语言编写并且使用 [raft][raft] 一致性算法来管理一个高靠用复制日志.
@@ -222,61 +222,61 @@ curl -L http://127.0.0.1:4001/v1/keys/testAndSet -d prevValue=one -d value=two
 
 我们成功的修改值从 “one” 到 “two”, 因为我们给了正确的前一个值.
 
-### Listing a directory
+### 监听目录
 
-Last we provide a simple List command to list all the keys under a prefix path.
+最后我们提供一个简单的List命令列出在一个前缀路径下的所有的键.
 
-Let us create some keys first.
+首先让我们创建一些键.
 
-We already have `/foo/foo=barbar`
+我们已经有 `/foo/foo=barbar`
 
-We create another one `/foo/foo_dir/foo=barbarbar`
+我们创建了另外一个 `/foo/foo_dir/foo=barbarbar`
 
 ```sh
 curl -L http://127.0.0.1:4001/v1/keys/foo/foo_dir/bar -d value=barbarbar
 ```
 
-Now list the keys under `/foo`
+现在列出在`/foo`下的键  
 
 ```sh
 curl -L http://127.0.0.1:4001/v1/keys/foo/
 ```
 
-We should see the response as an array of items
+我们可以看到作为一个数据条目的响应
 
 ```json
 [{"action":"GET","key":"/foo/foo","value":"barbar","index":10},{"action":"GET","key":"/foo/foo_dir","dir":true,"index":10}]
 ```
 
-which meas `foo=barbar` is a key-value pair under `/foo` and `foo_dir` is a directory.
+这意味着 `foo=barbar` 是一个键值对，在目录 `/foo` 和 `foo_dir`.
 
-## Advanced Usage
+## 高级用法
 
-### Transport security with HTTPS
+### 使用HTTPS安全传输
 
-Etcd supports SSL/TLS and client cert authentication for clients to server, as well as server to server communication
+Etcd 支持 客户端到服务端的SSL/TLS 和 客户端证书认证,以及服务器到服务器的通信
 
-First, you need to have a CA cert `clientCA.crt` and signed key pair `client.crt`, `client.key`. This site has a good reference for how to generate self-signed key pairs:
+首先, 你需要有一个CA证书 `clientCA.crt` 和签名的密匙对`client.crt`, `client.key`. 这个站点有一个很好的生成自签名的密匙对:
 http://www.g-loaded.eu/2005/11/10/be-your-own-ca/
 
-For testing you can use the certificates in the `fixtures/ca` directory.
+作为测试你可以在`fixtures/ca` 目录使用证书.
 
-Next, lets configure etcd to use this keypair:
+接下来,让我们配置etcd使用这个密匙对:
 
 ```sh
 ./etcd -n node0 -d node0 -clientCert=./fixtures/ca/server.crt -clientKey=./fixtures/ca/server.key.insecure -f
 ```
 
-`-f` forces new node configuration if existing configuration is found (WARNING: data loss!)
-`-clientCert` and `-clientKey` are the key and cert for transport layer security between client and server
+`-f` 如果配置被发现，将覆盖新的节点配置(注意: 数据丢失!)
+`-clientCert` 和 `-clientKey` 是在客户端和服务器安全传输层的密匙和证书
 
-You can now test the configuration using https:
+现在你可以使用https测试这个链接:
 
 ```sh
 curl --cacert fixtures/ca/ca.crt https://127.0.0.1:4001/v1/keys/foo -d value=bar -v
 ```
 
-You should be able to see the handshake succeed.
+你能够看到握手成功的信息.
 
 ```
 ...
@@ -284,29 +284,29 @@ SSLv3, TLS handshake, Finished (20):
 ...
 ```
 
-And also the response from the etcd server.
+并且从etcd服务有一样的响应.
 
 ```json
 {"action":"SET","key":"/foo","value":"bar","newKey":true,"index":3}
 ```
 
-### Authentication with HTTPS client certificates
+### 使用HTTPS客户端证书认证
 
-We can also do authentication using CA certs. The clients will provide their cert to the server and the server will check whether the cert is signed by the CA and decide whether to serve the request.
+我们也可以使用CA证书进行认证. 客户端将提供他们的证书到服务器并且服务器将检查整个证书是否有CA签发并且决定是否送到请求.
 
 ```sh
 ./etcd -n node0 -d node0 -clientCAFile=./fixtures/ca/ca.crt -clientCert=./fixtures/ca/server.crt -clientKey=./fixtures/ca/server.key.insecure -f
 ```
 
-```-clientCAFile``` is the path to the CA cert.
+```-clientCAFile``` 是指想CA证书的路径.
 
-Try the same request to this server:
+向这个服务器发送相同的请求:
 
 ```sh
 curl --cacert fixtures/ca/ca.crt https://127.0.0.1:4001/v1/keys/foo -d value=bar -v
 ```
 
-The request should be rejected by the server.
+这个请求被服务器拒绝.
 
 ```
 ...
@@ -314,13 +314,13 @@ routines:SSL3_READ_BYTES:sslv3 alert bad certificate
 ...
 ```
 
-We need to give the CA signed cert to the server.
+我们需要向服务器给出签名的CA证书.
 
 ```sh
 curl -L https://127.0.0.1:4001/v1/keys/foo -d value=bar -v --key myclient.key --cert myclient.crt -cacert clientCA.crt
 ```
 
-You should able to see
+你将看见
 ```
 ...
 SSLv3, TLS handshake, CERT verify (15):
@@ -328,49 +328,49 @@ SSLv3, TLS handshake, CERT verify (15):
 TLS handshake, Finished (20)
 ```
 
-And also the response from the server:
+并且从服务器一样的响应:
 
 ```json
 {"action":"SET","key":"/foo","value":"bar","newKey":true,"index":3}
 ```
 
-## Clustering
+## 集群
 
-### Example cluster of three machines
+### 三台机器的集群实例
 
-Let's explore the use of etcd clustering. We use go-raft as the underlying distributed protocol which provides consistency and persistence of the data across all of the etcd instances.
+让我探测使用etcd的集群. 我们使用go-raft作为底层的分布式协议，该协议在所有的etcd实例之间提供数据一直性和持久性.
 
-Let start by creating 3 new etcd instances.
+让我们创建3个新的etcd实例.
 
-We use -s to specify server port and -c to specify client port and -d to specify the directory to store the log and info of the node in the cluster
+我们使用`-s`指定服务端口 并且` -c` 制定客户端端口和`-d` 制定目录存储日志和在集群中的节点信息
 
 ```sh
 ./etcd -s 127.0.0.1:7001 -c 127.0.0.1:4001 -d nodes/node1 -n node1
 ```
 
-**Note:** If you want to run etcd on external IP address and still have access locally you need to add `-cl 0.0.0.0` so that it will listen on both external and localhost addresses.
-A similar argument `-sl` is used to setup the listening address for the server port.
+**注意:** 如果你想在外部IP地址运行etcd并且在本地能够访问，你需要添加 `-cl 0.0.0.0` 以至于将同时监听外部和本地地址.
+一个简单的参数 `-sl` 被用于为服务器端口设置监听地址.
 
-Let the join two more nodes to this cluster using the -C argument:
+让我们使用`-C`参数在这个集群中添加两个或多个节点:
 
 ```sh
 ./etcd -c 127.0.0.1:4002 -s 127.0.0.1:7002 -C 127.0.0.1:7001 -d nodes/node2 -n node2
 ./etcd -c 127.0.0.1:4003 -s 127.0.0.1:7003 -C 127.0.0.1:7001 -d nodes/node3 -n node3
 ```
 
-Get the machines in the cluster:
+在集群中获取机器:
 
 ```sh
 curl -L http://127.0.0.1:4001/v1/machines
 ```
 
-We should see there are three nodes in the cluster
+我们将会看见集群中的三个节点
 
 ```
 http://127.0.0.1:4001, http://127.0.0.1:4002, http://127.0.0.1:4003
 ```
 
-The machine list is also available via this API:
+通过这个API这个机器列表也是可用:
 
 ```sh
 curl -L http://127.0.0.1:4001/v1/keys/_etcd/machines
@@ -380,20 +380,20 @@ curl -L http://127.0.0.1:4001/v1/keys/_etcd/machines
 [{"action":"GET","key":"/_etcd/machines/node1","value":"raft=http://127.0.0.1:7001&etcd=http://127.0.0.1:4001","index":4},{"action":"GET","key":"/_etcd/machines/node2","value":"raft=http://127.0.0.1:7002&etcd=http://127.0.0.1:4002","index":4},{"action":"GET","key":"/_etcd/machines/node3","value":"raft=http://127.0.0.1:7003&etcd=http://127.0.0.1:4003","index":4}]
 ```
 
-The key of the machine is based on the ```commit index``` when it was added. The value of the machine is ```hostname```, ```raft port``` and ```client port```.
+当被添加，机器的键基于 ```commit index``` .机器的值是 ```hostname```, ```raft port``` 和 ```client port```.
 
-Also try to get the current leader in the cluster
+同时尝试获取集群中的当前主节点
 
 ```
 curl -L http://127.0.0.1:4001/v1/leader
 ```
-The first server we set up should be the leader, if it has not dead during these commands.
+第一个服务器我们设置为主节点, 如果在这些命令期间没有失效.
 
 ```
 http://127.0.0.1:7001
 ```
 
-Now we can do normal SET and GET operations on keys as we explored earlier.
+现在我们可以在这些键上执行一般的 SET 和 GET 操作作为我们早期的遍历.
 
 ```sh
 curl -L http://127.0.0.1:4001/v1/keys/foo -d value=bar
@@ -403,15 +403,14 @@ curl -L http://127.0.0.1:4001/v1/keys/foo -d value=bar
 {"action":"SET","key":"/foo","value":"bar","newKey":true,"index":5}
 ```
 
-### Killing Nodes in the Cluster
+### 在集群中停止节点
 
-Let's kill the leader of the cluster and get the value from the other machine:
+让我们停止集群中的主节点并且从其他的机器获取值:
 
 ```sh
 curl -L http://127.0.0.1:4002/v1/keys/foo
 ```
-
-A new leader should have been elected.
+一个新的主节点将被选择出来.
 
 ```
 curl -L http://127.0.0.1:4001/v1/leader
@@ -421,25 +420,25 @@ curl -L http://127.0.0.1:4001/v1/leader
 http://127.0.0.1:7002
 ```
 
-or
+或者
 
 ```
 http://127.0.0.1:7003
 ```
 
-You should be able to see this:
+你可能会看见这些:
 
 ```json
 {"action":"GET","key":"/foo","value":"bar","index":5}
 ```
 
-It succeeded!
+证明成功了!
 
-### Testing Persistence
+### 测试持久化
 
-OK. Next let us kill all the nodes to test persistence. And restart all the nodes use the same command as before.
+好的，接下来让我们停止掉所有的节点来测试持久化. 并且使用一下命令来重新启动所有的节点.
 
-Your request for the `foo` key will return the correct value:
+你对键`foo`的请求将会返回正确的值:
 
 ```sh
 curl -L http://127.0.0.1:4002/v1/keys/foo
@@ -449,87 +448,87 @@ curl -L http://127.0.0.1:4002/v1/keys/foo
 {"action":"GET","key":"/foo","value":"bar","index":5}
 ```
 
-### Using HTTPS between servers
+### 在服务器之间使用HTTPS
 
-In the previous example we showed how to use SSL client certs for client to server communication. Etcd can also do internal server to server communication using SSL client certs. To do this just change the ```-client*``` flags to ```-server*```.
+在前面的例子我们展示了如何为客户端到服务端使用SSL客户端证书进行通信. Etcd 也能够在外部服务器与服务器使用SSL客户端证书进行通信.需要做的仅仅改变```-client*``` 标识到 ```-server*```.
 
-If you are using SSL for server to server communication, you must use it on all instances of etcd.
+如果你在服务器与服务器之间使用SS，你在所有的etcd节点也必须使用.
 
-## Libraries and Tools
+## 库和工具
 
-**Tools**
+**工具**
 
-- [etcdctl](https://github.com/coreos/etcdctl) - A command line client for etcd
+- [etcdctl](https://github.com/coreos/etcdctl) - 一个为etcd的命令行的客户端工具
 
-**Go libraries**
+**Go 库**
 
 - [go-etcd](https://github.com/coreos/go-etcd)
 
-**Java libraries**
+**Java 库**
 
 - [justinsb/jetcd](https://github.com/justinsb/jetcd)
 - [diwakergupta/jetcd](https://github.com/diwakergupta/jetcd)
 
 
-**Python libraries**
+**Python 库**
 
 - [transitorykris/etcd-py](https://github.com/transitorykris/etcd-py)
 
-**Node libraries**
+**Node 库**
 
 - [stianeikeland/node-etcd](https://github.com/stianeikeland/node-etcd)
 
-**Ruby libraries**
+**Ruby 库**
 
 - [iconara/etcd-rb](https://github.com/iconara/etcd-rb)
 - [jpfuentes2/etcd-ruby](https://github.com/jpfuentes2/etcd-ruby)
 - [ranjib/etcd-ruby](https://github.com/ranjib/etcd-ruby)
 
-**Chef Cookbook**
+**Chef 手册**
 
 - [spheromak/etcd-cookbook](https://github.com/spheromak/etcd-cookbook)
 
-**Projects using etcd**
+**使用 etcd的项目**
 
-- [calavera/active-proxy](https://github.com/calavera/active-proxy) - HTTP Proxy configured with etcd
-- [gleicon/goreman](https://github.com/gleicon/goreman/tree/etcd) - Branch of the Go Foreman clone with etcd support
-- [garethr/hiera-etcd](https://github.com/garethr/hiera-etcd) - Puppet hiera backend using etcd
-- [mattn/etcd-vim](https://github.com/mattn/etcd-vim) - SET and GET keys from inside vim
-- [mattn/etcdenv](https://github.com/mattn/etcdenv) - "env" shebang with etcd integration
+- [calavera/active-proxy](https://github.com/calavera/active-proxy) - 使用etcd的http代理配置
+- [gleicon/goreman](https://github.com/gleicon/goreman/tree/etcd) - 使用etcd支持的Go Foreman clone分支
+- [garethr/hiera-etcd](https://github.com/garethr/hiera-etcd) - Puppet hiera 后端使用 etcd
+- [mattn/etcd-vim](https://github.com/mattn/etcd-vim) - 从VIM内部SET 和 GET 键
+- [mattn/etcdenv](https://github.com/mattn/etcdenv) - "env" shebang 使用etcd 集成
 
-## FAQ
+## 问答
 
-### What size cluster should I use?
+### 我们应该使用多大的集群?
 
-Every command the client sends to the master is broadcast it to all of the followers.
-But, the command is not be committed until the majority of the cluster machines receive that command.
+每一个命令客户端发送一个主广播给所有的追随者.
+但是,命令不会被提交直到 大部分集群集群接收了这些命令.
 
-Because of this majority voting property the ideal cluster should be kept small to keep speed up and be made up of an odd number of machines.
+因为大部分表的属性保持理想的簇很小以保持基数台机器的速度.
 
-Odd numbers are good because if you have 8 machines the majority will be 5 and if you have 9 machines the majority with be 5.
-The result is that an 8 machine cluster can tolerate 3 machine failures and a 9 machine cluster can tolerate 4 nodes failures.
-And in the best case when all 9 machines are responding the cluster will perform at the speed of the fastest 5 nodes.
+基数数量非常好因为如何你有8台机器大部分应该是5并且如果你有9太机器大部分还是5.
+这个结果是8节点机器集群能够容忍3节点故障，9节点机器集群能够4节点故障.
+在最好的情况下，9节点机器集群的响应速度最快的5节点机器将被执行.
 
-## Project Details
+## 项目详情
 
-### Versioning
+### 版本
 
-etcd uses [semantic versioning][semver].
-When we release v1.0.0 of etcd we will promise not to break the "v1" REST API.
-New minor versions may add additional features to the API however.
+etcd 使用 [语义版本][semver].
+当我们发布v1.0.0的etcd我们将承诺不会破坏"v1" REST API.
+新的次要版本的可能会添加额外功能的API.
 
-You can get the version of etcd by requesting the root path of etcd:
+通过根路径的请求，你可以获得etcd的版本:
 
 ```sh
 curl -L http://127.0.0.1:4001
 ```
 
-During the v0 series of releases we may break the API as we fix bugs and get feedback.
+在v0系列发布期间，我们会破坏API作为我们修复缺陷和获得反馈 .
 
 [semver]: http://semver.org/
 
-### License
+### 许可
 
-etcd is under the Apache 2.0 license. See the [LICENSE][license] file for details.
+etcd 基于Apache 2.0 许可. 查看 [LICENSE][license] 文件了解详情.
 
 [license]: https://github.com/coreos/etcd/blob/master/LICENSE
