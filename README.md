@@ -11,14 +11,15 @@
 ## 已经完成章节
 * [QEMU运行CoreOS](qemu/index.md)
 * [使用CoreOS](using-coreos/index.md)
-* [CoreOS开发者指南](sdk/index.md)  
+* [CoreOS开发者指南](sdk/index.md)
+* [使用etcd](etcd/README.md)    
 
-## HowTo  
+### HowTo  
 * [在docker容器中访问etcd](howto/howto_access_etcd.md)  **注意:临时方案**
 
 
 
 ## 正在翻译的章节  
-* [使用etcd](etcd/README.md)
+
 
 
