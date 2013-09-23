@@ -3,7 +3,7 @@ README 版本 0.1.0
 
 [![构建状态](https://travis-ci.org/coreos/etcd.png)](https://travis-ci.org/coreos/etcd)
 
-一个高度可用的共享配置和服务发现的键值存储. etcd 的灵感来源与动物管理员和表演者, 它将专注与:
+一个高度可用的共享配置和服务发现的键值存储. etcd 的灵感来源于[zookeeper][zookeeper-link]和[doozer][doozer-link], 它将专注与:
 
 * 简单: curl可访问的用户的API (HTTP+JSON)
 * 安全: 可选的SSL客户端证书认证
@@ -16,6 +16,9 @@ Etcd 使用Go语言编写并且使用 [raft][raft] 一致性算法来管理一�
 
 [raft]: https://github.com/coreos/go-raft
 [etcdctl]: http://coreos.com/docs/etcdctl/
+[zookeeper-link]:http://zookeeper.apache.org/  
+[doozer-link]:https://github.com/ha/doozer  
+
 
 ## 入门
 
