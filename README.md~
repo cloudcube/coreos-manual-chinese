@@ -26,5 +26,5 @@
 
 
 ## 正在翻译的章节  
- * [Running CoreOS on OpenStack][running-coreos/platforms/openstack/ZH_CN/index.md]
+ * [Running CoreOS on OpenStack](running-coreos/platforms/openstack/ZH_CN/index.md)
 
