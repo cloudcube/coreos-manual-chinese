@@ -17,15 +17,14 @@ CoreOS is currently in heavy development and actively being tested.  These
 instructions will walk you through downloading CoreOS for OpenStack, importing
 it with the `glance` tool and running your first cluster with the `nova` tool.
 
-[coreos_link]:http://www.coreos.com  
-[openstack_link]:http://www.openstack.org
+
 
 
 ## Import the Image
 
 ## 导入镜像  
 
-这些步骤将会下载镜像，解压然后倒入[glance][glance_link]镜像存储  
+这些步骤将会下载镜像，解压然后导入[glance][glance_link]镜像存储  
 
 These steps will download the CoreOS image, uncompress it and then import it
 into the glance image store.
@@ -76,6 +75,10 @@ $ glance image-create --name CoreOS \
 ## Cloud-Config  
 
 CoreOS allows you to configure machine parameters, launch systemd units on startup and more via cloud-config. Jump over to the [docs to learn about the supported features][cloud-config].
+
+[CoreOS][coreos_link]允许你配置机器参数,通过[cloud-config][cloud-config_link]在启动的时候运行[systemd][systemd_link]单元.  跳转到[cloud-config的更多特性][cloud-config_link]
+
+
 We're going to provide our cloud-config to OpenStack via the user-data flag. Our cloud-config will also contain SSH keys that will be used to connect to the instance.
 In order for this to work your OpenStack cloud provider must support [config drive][config-drive] or the OpenStack metadata service.
 
@@ -176,3 +179,10 @@ new discovery token. Change the token value on the etcd discovery parameter in t
 
 Now that you have instances booted it is time to play around.
 Check out the [CoreOS Quickstart]({{site.url}}/docs/quickstart) guide or dig into [more specific topics]({{site.url}}/docs).
+
+
+
+
+[coreos_link]:http://www.coreos.com  
+[openstack_link]:http://www.openstack.org
+
