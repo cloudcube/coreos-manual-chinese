@@ -38,7 +38,11 @@ Each target is actually a collection of symlinks to our unit files. This is spec
 
 ## Unit File
 
+
 On CoreOS, unit files are located within the R/W filesystem at `/etc/systemd/system`. Let's create a simple unit named `hello.service`:
+
+在CoreOS上,单元文件位于`/etc/systemd/system`可读写文件系统.让我们创建一个简单的单元文件`hello.service`:  
+
 
 ```ini
 [Unit]
@@ -59,13 +63,28 @@ WantedBy=multi-user.target
 
 The description shows up in the systemd log and a few other places. Write something that will help you understand exactly what this does later on.
 
+该描述出现在systemd日志文件和少数的其他地方. 写的这些东西讲帮助你真正了解接下来做的东西.
+
 `After=docker.service` and `Requires=docker.service` means this unit will only start after `docker.service` is active. You can define as many of these as you want.
+
+`After=docker.service` 与`Requires=docker.service`意味着这个单元在`docker.service`活动后启动，你可以多次自定义.
+
+
+
 
 `ExecStart=` allows you to specify any command that you'd like to run when this unit is started.
 
+`ExecStart=`允许你指定任何任何你想在本机开机的命令.  
+
+
+
+
 `WantedBy=` is the target that this unit is a part of.
+`WantedBy=`是单元文件的一部分.
+
 
 To start a new unit, we need to tell systemd to create the symlink and then start the file:
+启动一个新的单元,我们需要告诉systemd创建一个链接然后启动这个文件:  
 
 ```sh
 $ sudo systemctl enable /etc/systemd/system/hello.service
@@ -73,6 +92,8 @@ $ sudo systemctl start hello.service
 ```
 
 To verify the unit started, you can see the list of containers running with `docker ps` and read the unit's output with `journalctl`:
+
+验证单元是否已经启动，你可以使用`docker ps`来查看容器列表并且使用`journalctl`读取单元的输出:  
 
 ```sh
 $ journalctl -f -u hello.service
@@ -87,8 +108,12 @@ Feb 11 17:46:28 localhost docker[23470]: Hello World
 <a class="btn btn-default" href="{{site.url}}/docs/cluster-management/debugging/reading-the-system-log">Reading the System Log</a>
 
 ## Advanced Unit Files
+## Unit File进阶  
 
 systemd provides a high degree of functionality in your unit files. Here's a curated list of useful features listed in the order they'll occur in the lifecycle of a unit:
+
+systemd在你的单元文件中提供高可用的功能. 下面的表格罗列了在单元文件的生命周期中所有的命令列表:
+
 
 | Name    | Description |
 |---------|-------------|
@@ -100,9 +125,21 @@ systemd provides a high degree of functionality in your unit files. Here's a cur
 | ExecStopPost | Commands that will run after `ExecStop` has completed. |
 | RestartSec | The amount of time to sleep before restarting a service. Useful to prevent your failed service from attempting to restart itself every 100ms. |
 
+
+|名称|描述|
+|-------|-----|
+|ExecStartPre|该命令在`ExecStart`之前运行.|
+|ExecStart|此单元文件的主要运行命令.|
+|ExecStartPost|该命令在所有的`ExecStart`命令执行完成后运行.|
+|ExecReload|该命令在使用`systemctl reload foo.service`命令重载单元文件的时候运行.|
+|ExecStop|该命令将会在该单元文件执行失败或者通过`systemctl stop foo.service`停止的时候运行.|
+|ExecStopPost|该命令将在`ExecStop`完成后执行.|
+|RestartSec|在重新启动服务所需时间内休眠。用以防止自身每100毫秒就启动引发的服务异常|
+
 The full list is located on the [systemd man page](http://www.freedesktop.org/software/systemd/man/systemd.service.html).
 
 Let's put a few of these concepts togther to register new units within etcd. Imagine we had another container running that would read these values from etcd and act upon them.
+
 
 We can use `ExecStartPre` to scrub existing conatiner state. The `docker kill` will force any previous copy of this container to stop, which is useful if we restarted the unit but docker didn't stop the container for some reason. The `=-` is systemd syntax to ignore errors for this command. We need to do this because docker will return a non-zero exit code if we try to stop a container that doesn't exist. We don't consider this an error (because we want the container stopped) so we tell systemd to ignore the possible failure.
 
